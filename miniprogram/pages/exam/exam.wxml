@@ -1,0 +1,23 @@
+<view style='height:{{containerHeight}}px; width:100%; background: white'>
+  <movable-area class="padding" style="height:{{containerHeight}}px;width:100%">
+    <movable-view disabled direction="all" wx:for="{{bins}}" wx:key x="{{item.x}}" y="{{currentUncapIndex == index ? binUncapY : binStandByY}}"style='width:{{binWidth}}px;height:{{binHeight}}px;background-image:url({{item.bg.uncap}});background-size: 100% 100%;'/>
+    <movable-view 
+      hidden = '{{examFinished || !startedExam}}' 
+      bindtouchend = "onObjectTouchEnd" 
+      direction = "all"
+      animation="{{false}}"
+      x = "{{garbageInitialLeft}}px"
+      y = "{{garbageInitialTop}}px"
+      bindchange = "onObjectMove"
+      style = 'text-align: center; width:{{garbageRectWidth}}px;height:{{garbageRectHeight}}px; background:yellow'>
+      {{testCases[currentTestCaseIndex].name}}
+    </movable-view>
+
+    <view 
+      style = 'position: absolute;left:{{garbageInitialLeft}}px;top:{{garbageInitialTop + 100}}px;width:{{garbageRectWidth}}px;height:{{garbageRectHeight}}px;background:blue' 
+      hidden='{{startedExam}}'
+      bindtap='startExam'>Start</view>
+
+    <view wx:for="{{testCases}}" wx:key hidden='{{!examFinished || testCases.length == 0}}'>{{item.name}} {{item.passed ? "passed" : "no"}}</view>
+  </movable-area>
+</view>

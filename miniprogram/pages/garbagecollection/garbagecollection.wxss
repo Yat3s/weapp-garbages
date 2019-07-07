@@ -1,0 +1,5 @@
+/* pages/garbagecollection/garbagecollection.wxss */
+
+page {
+  background:#466AE4
+}

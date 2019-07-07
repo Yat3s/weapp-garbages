@@ -1,0 +1,14 @@
+<!--pages/garbagecollection/search/search.wxml-->
+<cu-custom bgColor="bg-white" isBack="{{true}}">
+  <view slot="content"></view>
+</cu-custom>
+<view class="cu-bar search bg-white">
+  <view class="search-form round">
+    <text class="cuIcon-search"></text>
+    <input type="text" placeholder="搜搜这是什么类型的垃圾" confirm-type="search" bindinput="onSearchChange"></input>
+  </view>
+</view>
+
+<view wx:for='{{100}}' wx:key >
+  {{item}}
+</view>

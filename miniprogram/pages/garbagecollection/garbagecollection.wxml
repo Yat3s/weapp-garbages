@@ -1,0 +1,62 @@
+<!--index.wxml-->
+<scroll-view bindscroll="onScrollChange" scroll-y style='position:absolute;width:100%;height:2000rpx'>
+
+  <!-- Header -->
+  <view class="padding" style='display:flex;align-items:center;height:{{headerHeight}}px;width:100%'>
+    <view style="width:100%;align-items: center;  " class="text-white justify-center align-center">
+
+      <view class='text-sl margin-bottom'>你是什么垃圾</view>
+      <!-- Search Bar -->
+      <view bindtap="goSearch" class='text-gray flex justify-between align-center shadow shadow-blur text-sm padding-left padding-right padding-top-sm padding-bottom-sm' style='background:#0023A0;width:100%;border-radius:100rpx;'>
+        搜搜看你这个是什么垃圾
+        <image style="width:60rpx;height:60rpx" src='../../images/ic_search.png'></image>
+      </view>
+    </view>
+  </view>
+
+  <view class='shadow shadow-blur margin-left margin-right' style='position:absolute;height:100%;'>
+    <!-- Tab bar -->
+    <view class="padding-left padding-right bg-white" style='border-top-left-radius:48rpx;border-top-right-radius:48rpx;height:{{tabBarHeight}}px;width:100%'>
+      <view class="flex justify-between" style="display:flex;align-items:center;height:{{tabBarHeight}}px">
+        <view style="width:100%" class="{{index==currentTabIndex ? 'text-black text-bold':'text-gray'}}" wx:for="{{tabs}}" wx:key bindtap="tabSelect" data-id="{{index}}">
+          {{tabs[index].title}}
+          <!-- Indicator -->
+          <view class="margin-top-xs {{index==currentTabIndex ? 'bg-black':''}}" style='height:6rpx;width:48rpx'></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- Discription -->
+    <view class="bg-white flex justify-between padding solid-top">
+      <view class="padding shadow" style="border-radius:48rpx;background:#ff7f5d">
+        <view class='flex align-center'>
+          <image style='width:80rpx;height:80rpx' src='../../images/ic_household.png' />
+          <view class='text-white text-sm margin-left-sm'>{{tabs[currentTabIndex].title}}</view>
+          <view class='text-white text-sm margin-top-sm'>{{tabs[currentTabIndex].description}}</view>
+        </view>
+        <view>
+
+        </view>
+      </view>
+    </view>
+
+    <!-- List -->
+    <view class="padding  {{index % 2 == 0 ? 'bg-gray' : 'bg-white'}}" wx:for="{{100}}" wx:key>{{item}}</view>
+  </view>
+
+</scroll-view>
+
+<view hidden="{{!tabBarCollapsed}}" class="shadow padding-left padding-right bg-white" style='position:absolute;height:{{tabBarHeight + statusbarHeight}}px;width:100%'>
+  <view style='height:{{statusBarHeight}}px' />
+
+  <view class='flex align-center'>
+    <view class="flex justify-between" style="display:flex;align-items:center;width:60%;height:{{tabBarHeight}}px">
+      <view style="width:100%" class="{{index==currentTabIndex ? 'text-black text-bold':'text-gray'}}" wx:for="{{tabs}}" wx:key bindtap="tabSelect" data-id="{{index}}">
+        {{tabs[index].abbr}}
+        <!-- Indicator -->
+        <view class="margin-top-xs {{index==currentTabIndex ? 'bg-black':''}}" style='height:6rpx;width:48rpx'></view>
+      </view>
+    </view>
+    <image bindtap="goSearch" style="width:48rpx;height:48rpx" src='../../images/ic_search.png' />
+  </view>
+</view>
