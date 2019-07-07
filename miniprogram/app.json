@@ -15,5 +15,10 @@
   "usingComponents": {
     "cu-custom": "/colorui/components/cu-custom"
   },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "小程序请求获取你的位置"
+    }
+  },
   "sitemapLocation": "sitemap.json"
 }

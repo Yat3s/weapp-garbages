@@ -6,11 +6,29 @@ Page({
    * 页面的初始数据
    */
   data: {
-    garbages: []
+    garbages: [],
+    input:'',
+    toolbarHeight: getApp().globalData.toolbarHeight,
+  },
+
+  clearInput() {
+    let garbages = this.data.garbages;
+    for (let i = 0; i < garbages.length; i++) {
+      garbages[i].isHidden = false;
+    }
+    this.setData({
+      input: "",
+      garbages
+    })
+   
   },
 
   onSearchChange(e) {
     let key = e.detail.value.toLowerCase();
+    this.setData({
+      input: key
+    })
+
     this.search(key);
   },
 

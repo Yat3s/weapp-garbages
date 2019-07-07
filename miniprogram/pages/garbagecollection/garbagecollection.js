@@ -1,13 +1,10 @@
 // pages/garbagecollection/garbagecollection.js
 const db = wx.cloud.database();
 const app = getApp();
-const HEADER_HEIGHT = 180; // px
-const DEFAULT_CONTENT_CORNER_RADIUS = 24; // px
-const DEFAULT_TAB_CONTENT_WIDTH_PERCENT = 100 // Percent
-const COLLASPED_TAB_CONTENT_WIDTH_PERCENT = 60 // Percent
-const DEFAULT_TAB_TEXT_SIZE = 28 // rpx
-const COLLASPED_TAB_TEXT_SIZE = 20 // rpx
+const HEADER_HEIGHT = 200; // px
 
+const DEFAULT_HEADER_TOP = 0; // px
+const COLLAPSED_HEADER_TOP = -50; // rpx
 Component({
   options: {
     addGlobalClass: true,
@@ -17,34 +14,41 @@ Component({
    * 页面的初始数据
    */
   data: {
-    tabCornerRadius: DEFAULT_CONTENT_CORNER_RADIUS,
+    toView: "",
     headerHeight: HEADER_HEIGHT,
     currentTabIndex: 0,
+    headerTop: DEFAULT_HEADER_TOP,
+    location: {
+      city: app.globalData.city,
+      province: app.globalData.province
+    },
     statusBarHeight: app.globalData.statusBarHeight,
     tabBarHeight: app.globalData.toolbarHeight - app.globalData.statusBarHeight,
-    tabTextSize: DEFAULT_TAB_TEXT_SIZE,
-    defaultTabTextSize: DEFAULT_TAB_TEXT_SIZE,
-    tabContentWidthPercent: DEFAULT_TAB_CONTENT_WIDTH_PERCENT,
     tabBarCollapsed: false,
     tabs: [{
+      id:"household",
       title: "湿垃圾",
       abbr: "湿",
-      color: "",
+      color: "#4CC591",
       description: "湿垃圾又称为厨余垃圾，即易腐垃圾，指食材废料、剩菜剩饭、过期食品、瓜皮果核、花卉绿植、中药药渣等易腐的生物质生活废弃物。"
     }, {
+        id: "residual",
+
       title: "干垃圾",
       abbr: "干",
-      color: "",
+      color: "#FE7647",
       description: "湿垃圾又称为厨余垃圾，即易腐垃圾，指食材废料、剩菜剩饭、过期食品、瓜皮果核、花卉绿植、中药药渣等易腐的生物质生活废弃物。"
     }, {
+      id: "recyclable",
       title: "可回收物",
       abbr: "回收",
-      color: "",
+      color: "#8E98FD",
       description: "湿垃圾又称为厨余垃圾，即易腐垃圾，指食材废料、剩菜剩饭、过期食品、瓜皮果核、花卉绿植、中药药渣等易腐的生物质生活废弃物。"
     }, {
+      id: "hazardous",
       title: "有害垃圾",
       abbr: "有害",
-      color: "",
+      color: "#182B88",
       description: "湿垃圾又称为厨余垃圾，即易腐垃圾，指食材废料、剩菜剩饭、过期食品、瓜皮果核、花卉绿植、中药药渣等易腐的生物质生活废弃物。"
     }],
     garbages: null
@@ -57,8 +61,12 @@ Component({
     },
 
     tabSelect(e) {
+      console.log(e);
+      const tabFrom = e.currentTarget.dataset.from;
+      const toView = tabFrom === 'collapsed' ? 'tabbar' : ''
       this.setData({
-        currentTabIndex: e.currentTarget.dataset.id
+        currentTabIndex: e.currentTarget.dataset.id,
+        toView
       })
     },
 
@@ -81,13 +89,9 @@ Component({
     onScrollChange(e) {
       const scrollY = e.detail.scrollTop;
       let tabBarCollapsed = scrollY >= HEADER_HEIGHT;
-      let headerOffsetPercent = (scrollY / HEADER_HEIGHT > 1) ? 1 : scrollY / HEADER_HEIGHT
-      let tabCornerRadius = DEFAULT_CONTENT_CORNER_RADIUS * (1 - headerOffsetPercent)
-      let tabContentWidthPercent = DEFAULT_TAB_CONTENT_WIDTH_PERCENT - (DEFAULT_TAB_CONTENT_WIDTH_PERCENT - COLLASPED_TAB_CONTENT_WIDTH_PERCENT) * headerOffsetPercent;
-      let tabTextSize = DEFAULT_TAB_TEXT_SIZE - (DEFAULT_TAB_TEXT_SIZE - COLLASPED_TAB_TEXT_SIZE) * headerOffsetPercent;
-      tabCornerRadius = tabCornerRadius < 0 ? 0 : tabCornerRadius
+      let headerOffsetPercent = (scrollY / HEADER_HEIGHT > 1) ? 1 : scrollY / HEADER_HEIGHT;
+      let headerTop = COLLAPSED_HEADER_TOP * headerOffsetPercent;
 
-      console.log("onScrollChange", "tabCornerRadius =>" + tabCornerRadius + ", tabContentWidthPercent =>" + tabContentWidthPercent + ", Top = " + e.detail.scrollTop + ", deltaY = " + e.detail.deltaY)
       if (tabBarCollapsed != this.data.tabBarCollapsed) {
         this.setData({
           tabBarCollapsed
@@ -95,14 +99,55 @@ Component({
       }
       if (!tabBarCollapsed) {
         this.setData({
-          tabCornerRadius,
-          tabContentWidthPercent,
-          tabTextSize
+          headerTop
         })
       }
-    }
+    },
+
+    getLocation() {
+      const _this = this;
+      wx.getLocation({
+        type: 'wgs84',
+        success(res) {
+          const latitude = res.latitude
+          const longitude = res.longitude
+          const speed = res.speed
+          const accuracy = res.accuracy
+          console.log("getLocation", res);
+          _this.parseLocation(latitude, longitude)
+        }
+      })
+    },
+
+    parseLocation(lat, lon) {
+      const _this = this;
+      const url = "https://apis.map.qq.com/ws/geocoder/v1/?location=" + lat + "," + lon + "&key=EIOBZ-GTTRJ-JEIFC-FYUNA-2QZE5-IYBQ7";
+      wx.request({
+        url: url,
+        success: (res) => {
+          console.log("parseLocation", res);
+          const province = res.data.result.ad_info.province;
+          const city = res.data.result.ad_info.city;
+          app.globalData.province = province;
+          app.globalData.city = city;
+          console.log("Province =>", province);
+          console.log("City =>", city);
+          _this.setData({
+            location: {
+              province,
+              city
+            }
+          })
+        },
+
+        fail: () => {
+          console.log("parseLocation Failed");
+        }
+      })
+    },
   },
   attached() {
     this.getGarbagesByType(0);
+    this.getLocation();
   }
 })
