@@ -1,6 +1,4 @@
-page {
-  background: #ffffff;
-}
+
 .history-table-wrap{
   width: 100%;
   left: 50%;
@@ -31,6 +29,6 @@ page {
   font-size: 24rpx;
 }
 .td{
-  font-size: 24rpx;
+  font-size: 20rpx;
   color: #ec9480;
 }

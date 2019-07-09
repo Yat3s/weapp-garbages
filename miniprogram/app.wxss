@@ -2,6 +2,14 @@
 @import "colorui/main.wxss";
 @import "colorui/icon.wxss";
 
+page {
+  --primary-light: #466AE4;
+  --householdColor:#614130;
+  --residualColor:#2d282e;
+  --recyclableColor:#08467e;
+  --hazardousColor:#e13b30;
+}
+
 .container {
   display: flex;
   flex-direction: column;

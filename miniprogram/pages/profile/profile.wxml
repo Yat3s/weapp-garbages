@@ -1,0 +1,34 @@
+<!--pages/profile/profile.wxml-->
+<scroll-view scroll-y style='width:{{windowWidth}}px;height:{{windowHeight}}px;'>
+
+  <view style='height: 200rpx'></view>
+  <view class='flex justify-between shadow shadow-blur padding-lg' style='margin-right:100rpx;border-top-right-radius:24rpx;border-bottom-right-radius:24rpx;width:auto; ;background:#4CC591'>
+    <view class='text-white '>
+      <view class='flex align-end'>
+        <view class="margin-right-sm" style='font-size:50rpx'> Hi, </view>
+         朋友
+      </view>
+
+      <view class="margin-top-sm"> 你总有一天会离开我的,</view>
+      <view class="margin-top-sm"> 对吗？</view>
+    </view> 
+
+    <image style="width:200rpx;height:200rpx" src='../../images/ic_recycle_bin.png'></image>
+  </view>
+
+  <view   
+    class='text-lg text-bold text-white flex justify-between padding-top-xl padding-bottom-xl' 
+    style='margin-top:100rpx;padding-left:20rpx;border-radius:0;background:#ff;margin-left:100rpx;width:auto;height'>
+    你想了解作者是什么样的人吗？
+  </view>
+  <view class="" style='margin-left:100rpx;color:white;border-top:1px dashed;width:100%'/>
+
+  <button hover-class="my-hover" open-type='share'  
+    class='text-lg text-bold text-white flex justify-between padding-top-xl padding-bottom-xl' 
+    style='padding-left:20rpx;background:#ff;margin-left:100rpx;width:auto;height'>
+    对了，你可以分享给你的好朋友吗？
+  </button>
+  <view class="" style='margin-left:100rpx;color:white;border-top:1px dashed;width:100%'/>
+
+
+</scroll-view>

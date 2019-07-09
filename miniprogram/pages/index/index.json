@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "garbages": "/pages/garbagecollection/garbagecollection",
-    "exam": "/pages/exam/exam"
+    "exam": "/pages/exam/exam",
+    "profile": "/pages/profile/profile"
   }
 }

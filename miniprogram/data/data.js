@@ -6295,7 +6295,7 @@ const data = [{
       },
       {
         id: '1243',
-        name: '高密度碎纸机处理的碎纸',
+        name: '碎纸机处理的碎纸',
         category: '1',
         alias: '',
         shortcut: 'gmdszhjchldszh'
@@ -7345,7 +7345,7 @@ const data = [{
       },
       {
         id: '1667',
-        name: '包裹着猫屎的塑料袋',
+        name: '裹着猫屎的塑料袋',
         category: '1',
         alias: '',
         shortcut: 'bgzhmshdsld'

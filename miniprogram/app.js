@@ -2,7 +2,8 @@
 var data = require('/data/data.js');
 App({
   globalData: {
-    garbages: data.data
+    garbages: data.data,
+    theme: "light"
   },
 
   getGarbageList() {

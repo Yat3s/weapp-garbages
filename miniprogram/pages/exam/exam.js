@@ -4,7 +4,7 @@ const BIN_SIZE = 4;
 const TEST_CASES_SIZE = 10;
 const GARBAGE_RECT_WIDTH = 60; // px
 const GARBAGE_RECT_HEIGHT = 60; // px
-const TEST_CASE_NAME_WIDTH = 200; // px
+const TEST_CASE_NAME_WIDTH = 300; // px
 
 const db = wx.cloud.database();
 Component({
@@ -179,7 +179,7 @@ Component({
     const containerWidth = app.globalData.windowWidth;
     const containerHeight = app.globalData.windowHeight - 50;
     const binWidth = (containerWidth / BIN_SIZE) * 0.8;
-    const binHeight = containerHeight * 0.2;
+    const binHeight = binWidth * 1.68;
     const binStandByY = containerHeight - binHeight;
     const binUncapY = binStandByY * 0.9;
     const binGap = (containerWidth - binWidth * BIN_SIZE) / 4;

@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<scroll-view scroll-into-view="{{toView}}" bindscroll="onScrollChange" scroll-y style='position:absolute;width:100%;height:2000rpx'>
+<scroll-view scroll-into-view="{{toView}}" bindscroll="onScrollChange" scroll-y style='position:absolute;width:100%;height:3000rpx'>
 
   <!-- Header -->
   <view class="padding" style='position:fixed;top:{{headerTop}}px;display:flex;align-items:center;height:{{headerHeight}}px;width:100%'>
