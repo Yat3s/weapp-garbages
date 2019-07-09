@@ -5,9 +5,9 @@ Page({
   data: {
     currentTab: 'garbage',
     tabs: [{
-      id:"garbage",
+        id: "garbage",
         title: "分类",
-        color:"#f1f1f1",
+        color: "#f1f1f1",
         icon: "../../images/ic_garbage.png"
       },
       {
@@ -37,6 +37,37 @@ Page({
     this.setData({
       currentTab: tabId
     })
+
+    const now = new Date().getMilliseconds();
+    wx.cloud.callFunction({
+      name: 'getAllGarbages'
+    }).then(res => {
+      console.log("getAllGarbages => ", res);
+      console.log("Cloud cost", new Date().getMilliseconds() - now);
+
+    }).catch(err => {
+      wx.hideLoading();
+      console.error(err);
+    })
+
+    // wx.request({
+    //   url: 'https://raw.githubusercontent.com/au-au/garbage-catalog/master/catalog.json',
+    //   success: (res) => {
+    //     console.log("Request cost", new Date().getMilliseconds() - now);
+    //     const items = res.data.data[0].items;
+        
+    //     // for (let i = 0; i <= items.length; i++) {
+          
+    //     //   wx.cloud.database().collection("garbages").add({
+    //     //     data: {
+    //     //       type: "household",
+    //     //       typeName: "湿垃圾",
+    //     //       name: items[i].name
+    //     //     }
+    //     //   })
+    //     // }
+    //   }
+    // })
   },
 
   onLoad(options) {
@@ -45,5 +76,9 @@ Page({
     this.setData({
       partWidth
     })
+
+
+    console.log("data==>", app.globalData.garbages);
+    
   },
 })

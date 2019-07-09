@@ -1,7 +1,36 @@
 //app.js
+var data = require('/data/data.js');
 App({
   globalData: {
+    garbages: data.data
+  },
 
+  getGarbageList() {
+    const garbagesSet = this.globalData.garbages;
+    var garbages = [];
+    for (let i = 0; i < garbagesSet.length; i++) {
+      for (let j = 0; j < garbagesSet[i].items.length; j++) {
+        var item = garbagesSet[i].items[j];
+        item.type = garbagesSet[i].id;
+        item.color = garbagesSet[i].color;
+        item.typeName = this.getTypeNameByType(garbagesSet[i].id)
+        garbages.push(item);
+      }
+    }
+    return garbages;
+  },
+
+  getTypeNameByType(type) {
+    switch(type) {
+      case "household":
+        return "湿垃圾";
+      case "residual":
+        return "干垃圾";
+      case "recyclable":
+        return "可回收物";
+      case "hazardous":
+        return "有害垃圾";
+    }
   },
 
   getLocation() {
@@ -37,15 +66,8 @@ App({
       }
     })
   },
-  
-  onLaunch: function() {
-    if (!wx.cloud) {
-      console.error('请使用 2.2.3 或以上的基础库以使用云能力')
-    } else {
-      wx.cloud.init({
-        traceUser: true,
-      })
-    }
+
+  requestLocation() {
     const _this = this;
     wx.getSetting({
       success: (res) => {
@@ -100,7 +122,16 @@ App({
         }
       }
     })
-
+  },
+  
+  onLaunch: function() {
+    if (!wx.cloud) {
+      console.error('请使用 2.2.3 或以上的基础库以使用云能力')
+    } else {
+      wx.cloud.init({
+        traceUser: true,
+      })
+    }
     wx.getSystemInfo({
       success: e => {
         this.globalData.screenHeight = e.screenHeight;
@@ -126,6 +157,7 @@ App({
         this.globalData.garbages = res.data;
         console.log("Global load garbages =>", res);
         wx.hideLoading();
+        this.requestLocation();
       })
     }
   }

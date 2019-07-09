@@ -14,6 +14,8 @@ Component({
    * 页面的初始数据
    */
   data: {
+    showDetailCard: false,
+    currentShowItemIndex: -1,
     toView: "",
     headerHeight: HEADER_HEIGHT,
     currentTabIndex: 0,
@@ -25,33 +27,8 @@ Component({
     statusBarHeight: app.globalData.statusBarHeight,
     tabBarHeight: app.globalData.toolbarHeight - app.globalData.statusBarHeight,
     tabBarCollapsed: false,
-    tabs: [{
-      id:"household",
-      title: "湿垃圾",
-      abbr: "湿",
-      color: "#4CC591",
-      description: "湿垃圾又称为厨余垃圾，即易腐垃圾，指食材废料、剩菜剩饭、过期食品、瓜皮果核、花卉绿植、中药药渣等易腐的生物质生活废弃物。"
-    }, {
-        id: "residual",
-
-      title: "干垃圾",
-      abbr: "干",
-      color: "#FE7647",
-      description: "湿垃圾又称为厨余垃圾，即易腐垃圾，指食材废料、剩菜剩饭、过期食品、瓜皮果核、花卉绿植、中药药渣等易腐的生物质生活废弃物。"
-    }, {
-      id: "recyclable",
-      title: "可回收物",
-      abbr: "回收",
-      color: "#8E98FD",
-      description: "湿垃圾又称为厨余垃圾，即易腐垃圾，指食材废料、剩菜剩饭、过期食品、瓜皮果核、花卉绿植、中药药渣等易腐的生物质生活废弃物。"
-    }, {
-      id: "hazardous",
-      title: "有害垃圾",
-      abbr: "有害",
-      color: "#182B88",
-      description: "湿垃圾又称为厨余垃圾，即易腐垃圾，指食材废料、剩菜剩饭、过期食品、瓜皮果核、花卉绿植、中药药渣等易腐的生物质生活废弃物。"
-    }],
-    garbages: null
+    tabs: app.globalData.garbages,
+    garbages: app.globalData.garbages
   },
   methods: {
     goSearch() {
@@ -68,18 +45,6 @@ Component({
         currentTabIndex: e.currentTarget.dataset.id,
         toView
       })
-    },
-
-    getGarbagesByType(type) {
-      db.collection("garbages").get()
-        .then(res => {
-          console.log("garbages=> ", res);
-          this.setData({
-            garbages: res.data
-          })
-        }).catch(err => {
-          console.error("garbages=> ", err);
-        })
     },
 
     onPageScroll(e) {
@@ -102,6 +67,19 @@ Component({
           headerTop
         })
       }
+    },
+
+    showDetailCard(e) {
+      this.setData({
+        currentShowItemIndex: e.currentTarget.dataset.index,
+        showDetailCard: true
+      })
+    },
+
+    hideDetailCard() {
+      this.setData({
+        showDetailCard: false
+      })
     },
 
     getLocation() {
@@ -147,7 +125,15 @@ Component({
     },
   },
   attached() {
-    this.getGarbagesByType(0);
-    this.getLocation();
+    if (!app.globalData.city) {
+      this.getLocation();
+    } else {
+      this.setData({
+        location: {
+          province: app.globalData.province,
+          city: app.globalData.city
+        }
+      })
+    }
   }
 })

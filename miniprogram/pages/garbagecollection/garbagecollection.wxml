@@ -30,25 +30,33 @@
       </view>
     </view>
 
-    <!-- Discription -->
+    <!-- Description card -->
     <view class="bg-white flex justify-between padding-sm solid-top">
-      <view class="flex padding shadow-wrap align-center" style="border-radius:24rpx;background:{{tabs[currentTabIndex].color}}">
+      <view class="flex padding shadow-wrap align-center" style="border-radius:24rpx;background:{{tabs[currentTabIndex].descBgColor}}">
         <view>
-          <view class='text-white text-bold'>{{tabs[currentTabIndex].title}}</view>
-          <view class='text-white text-sm margin-top-sm'>{{tabs[currentTabIndex].description}}</view>
+          <!-- Title -->
+          <view class='flex text-white text-bold align-end'>{{tabs[currentTabIndex].title}}</view>
+          <view class='text-white text-sm'>{{tabs[currentTabIndex].engName}}</view>
 
+          <!-- Description -->
+          <view class='text-white text-sm margin-top-sm'>{{tabs[currentTabIndex].description}}</view>
+          <view class='text-white text-sm margin-top-sm'>{{tabs[currentTabIndex].tips}}</view>
 
           <!-- Bottom icons -->
-          <view class='text-white text-bold text-large margin-top flex align-end'>
-            <image style='width:40rpx;height:60rpx;' src='../../images/bin/ic_{{tabs[currentTabIndex].id}}.png' /> :
-            <image class="margin-left" style='width:48rpx;height:48rpx' src='../../images/sample/ic_rice.png' />
+          <view class='text-white text-bold text-large margin-top flex align-center'>
+            <image style='width:72rpx;height:72rpx;' src='../../images/ic_{{tabs[currentTabIndex].id}}.png' />
+            <view style='width:4rpx;height:32rpx' class='margin-left-sm bg-gray'/>
+            <view style="display:flex; flex-direction:column; align-items:center" class="margin-left" wx:key wx:for="{{tabs[currentTabIndex].samples}}">
+              <image class="" style='width:48rpx;height:48rpx' src='../../images/sample/{{tabs[currentTabIndex].id}}/ic_{{item.icon}}.png' />
+              <view style="margin-top:2px; font-size:18rpx">{{item.name}}</view>
+            </view>
           </view>
         </view>
       </view>
     </view>
 
     <!-- List -->
-    <view id="list" class="padding  {{index % 2 == 0 ? 'bg-gray' : 'bg-white'}}" wx:for="{{100}}" wx:key>{{item}}</view>
+    <view data-index="{{index}}" bindtap="showDetailCard" class="padding  {{index % 2 == 0 ? 'bg-gray' : 'bg-white'}}" wx:for="{{garbages[currentTabIndex].items}}" wx:key>{{item.name}}</view>
   </view>
 
 </scroll-view>
@@ -65,5 +73,21 @@
       </view>
     </view>
     <image bindtap="goSearch" style="width:48rpx;height:48rpx" src='../../images/ic_search.png' />
+  </view>
+</view>
+
+<view class="cu-modal {{showDetailCard ? 'show' : ''}}" bindtap="hideDetailCard">
+  <view class="cu-dialog" catchtap>
+    <view  style="height:200px;">
+      {{garbages[currentTabIndex].items[currentShowItemIndex].name}}
+      <view class="cu-bar justify-end text-white">
+        <view class="action" bindtap="hideDetailCard">
+          <text class="cuIcon-close "></text>
+        </view>
+      </view>
+    </view>
+    <view class="cu-bar bg-white">
+      <view class="action margin-0 flex-sub  solid-left" bindtap="hideDetailCard">我知道了</view>
+    </view>
   </view>
 </view>

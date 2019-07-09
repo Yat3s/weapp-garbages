@@ -1,23 +1,106 @@
-<view style='height:{{containerHeight}}px; width:100%; background: white'>
-  <movable-area class="padding" style="height:{{containerHeight}}px;width:100%">
-    <movable-view disabled direction="all" wx:for="{{bins}}" wx:key x="{{item.x}}" y="{{currentUncapIndex == index ? binUncapY : binStandByY}}"style='width:{{binWidth}}px;height:{{binHeight}}px;background-image:url({{item.bg.uncap}});background-size: 100% 100%;'/>
+<view style='background:white;display:flex; flex-direction: column; align-items:center;height:{{containerHeight}}px; width:100%;'>
+  <movable-area 
+    class="padding-bottom" 
+    style="position:absolute;height:90%;width:100%">
+    <!-- Trash bin -->
     <movable-view 
-      hidden = '{{examFinished || !startedExam}}' 
+      hidden='{{examFinished}}'
+      disabled 
+      direction="all" 
+      wx:for="{{bins}}" 
+      wx:key x="{{item.x}}" y="{{currentUncapIndex == index ? binUncapY : binStandByY}}"
+      style='position:absolute;bottom:0rpx;width:{{binWidth}}px;height:{{binHeight}}px;background-image:url({{item.bg.uncap}});background-size: 100% 100%;'/>
+
+    <movable-view 
+      hidden = '{{examFinished}}' 
       bindtouchend = "onObjectTouchEnd" 
       direction = "all"
       animation="{{false}}"
       x = "{{garbageInitialLeft}}px"
       y = "{{garbageInitialTop}}px"
       bindchange = "onObjectMove"
-      style = 'text-align: center; width:{{garbageRectWidth}}px;height:{{garbageRectHeight}}px; background:yellow'>
-      {{testCases[currentTestCaseIndex].name}}
+      style = 'width:{{garbageRectWidth}}px;height:{{garbageRectHeight}}px;'>
+
+      <image style='width:100%;height:100%' src='../../images/ic_garbage_bag.png'/>
     </movable-view>
-
-    <view 
-      style = 'position: absolute;left:{{garbageInitialLeft}}px;top:{{garbageInitialTop + 100}}px;width:{{garbageRectWidth}}px;height:{{garbageRectHeight}}px;background:blue' 
-      hidden='{{startedExam}}'
-      bindtap='startExam'>Start</view>
-
-    <view wx:for="{{testCases}}" wx:key hidden='{{!examFinished || testCases.length == 0}}'>{{item.name}} {{item.passed ? "passed" : "no"}}</view>
   </movable-area>
+
+  <!-- Test progress -->
+  <view 
+    hidden='{{examFinished}}'
+    class="text-black text-bold text-lg"
+    style='margin-top:100rpx'> {{currentTestCaseIndex + 1}} / {{testCases.length}}</view>
+
+  <!-- Test case -->
+  <view 
+    style='text-align:center;width:{{testCaseNameWidth}}px;position:absolute; left:{{testCaseNameLeft}}px;top:{{garbageInitialTop - 80}}px'
+    class='padding-top-sm padding-bottom-sm text-black text-sl text-bold'>
+    {{testCases[currentTestCaseIndex].name}}
+  </view>
+
+  <!-- Result -->
+  <view
+  hidden='{{!examFinished || testCases.length == 0}}'
+  style='margin-top:18%;width:100%; height:90%;position:absolute'
+  >
+    <view
+      style='border-radius:24rpx;background:#433853;top:2%;left:5%; right:5%; height:82%;position:absolute'/>
+
+      <!-- Check list -->
+    <view
+      style='background:#ffffff;top:5%;left:10%; right:10%; height:75%;position:absolute'
+      class='padding shadow-lg shadow-wrap'>
+
+      <!-- User info -->
+      <view class='margin-top flex align-center justify-between'> 
+        <view class='flex align-center '>
+          <view style="width:80rpx;height:80rpx">
+            <open-data type="userAvatarUrl"/>
+          </view>
+
+          <view class='margin-left text-lg text-bold text-black'>
+            <open-data type="userNickName"/>
+          </view>
+        </view>
+
+        <view class='text-black text-bold text-lg'>成绩：{{passedCount}} / {{testCases.length}}</view>
+      </view>
+
+      <view class="margin-top margin-bottom" style='color:gray;border-top:1px dashed;width:100%'/>
+      <view class='history-table-wrap'>
+          <view class="table">
+            <view class="tr">
+                <view class="th th1">名称</view>
+                <view style="text-align:center" class="th th2">你的答案</view>
+                <view class="th th3">正确答案</view>
+            </view>
+            <view class="{{index % 2 == 0 ? 'bg-white' : 'bg-gray'}} tr" wx:for="{{testCases}}">
+                <view class="td td1">{{item.name}}</view>
+                <view style="text-align:center" class="td td2">
+                <image style="width:40rpx;height:40rpx" src='../../images/{{item.passed ? "ic_right" : "ic_wrong"}}.png'/>
+                </view>
+                <view class="td td3">{{item.typeName}}</view>
+            </view>
+      </view>
+      <view class="margin-top margin-bottom" style='color:gray;border-top:1px dashed;width:100%'/>
+
+      <view class='flex justify-between margin-top'>
+        <view bindtap='startExam' class='cu-btn bg-green round'>换一批试试</view>
+        <button open-type='share' class='cu-btn bg-blue round text-bold'>分享给好友</button>
+      </view>
+    </view>
+
+
+    </view>
+
+    <!-- Clips -->
+    <view
+      class='bg-grey'
+      style='left:20%;width:10%; height:6%;position:absolute'/>
+    <view
+      class='bg-grey'
+      style='right:20%;width:10%; height:6%;position:absolute'/> 
+   
+  </view>
+
 </view>

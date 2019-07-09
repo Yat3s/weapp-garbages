@@ -3,7 +3,8 @@ const app = getApp();
 const BIN_SIZE = 4;
 const TEST_CASES_SIZE = 10;
 const GARBAGE_RECT_WIDTH = 60; // px
-const GARBAGE_RECT_HEIGHT = 30; // px
+const GARBAGE_RECT_HEIGHT = 60; // px
+const TEST_CASE_NAME_WIDTH = 200; // px
 
 const db = wx.cloud.database();
 Component({
@@ -18,8 +19,10 @@ Component({
     garbageRectHeight: GARBAGE_RECT_HEIGHT,
     examFinished: false,
     currentTestCaseIndex: 0,
+    testCaseNameWidth: TEST_CASE_NAME_WIDTH,
     testCases: [],
-    startedExam: false,
+    passedCount: 0,
+    garbages: app.getGarbageList(),
     bins: [{
         bg: {
           standBy: "https://6763-gc-v3a9g-1259563504.tcb.qcloud.la/bin/t3.png?sign=f721db97a8606e5121f3437ff5aa95cc&t=1562229990",
@@ -50,7 +53,6 @@ Component({
   },
 
   methods: {
-
     onObjectMove(e) {
       console.log("onObjectMove", e.detail)
       let x = e.detail.x;
@@ -58,7 +60,7 @@ Component({
 
       var currentUncapIndex = parseInt((x + GARBAGE_RECT_WIDTH / 2) / (this.data.containerWidth / BIN_SIZE));
       var binHasUncaped = this.data.binHasUncaped;
-      if (y > this.data.binUncapY) {
+      if (y > this.data.binUncapY * 0.8) {
         binHasUncaped = true;
       } else {
         currentUncapIndex = -1;
@@ -98,23 +100,23 @@ Component({
         (binIndex == 3 && testCase.type === 'hazardous')) {
         passed = true;
       }
-
+      
+      var passedCount = this.data.passedCount;
       if (passed) {
         testCases[testCaseIndex].passed = true
+        passedCount ++;
       }
       var examFinished = false;
-      var startedExam = true;
       if (testCaseIndex < testCases.length - 1) {
         testCaseIndex++;
       } else {
         examFinished = true;
-        startedExam = false;
       }
       console.log("Passed ==> ", passed);
       this.setData({
         testCases,
         examFinished,
-        startedExam,
+        passedCount,
         currentTestCaseIndex: testCaseIndex,
         binHasUncaped: false,
         currentUncapIndex: -1,
@@ -123,28 +125,29 @@ Component({
     },
 
     startExam() {
-      console.log("startExam")
+      console.log("startExam");
       // Clear data
       this.setData({
         examFinished: false,
         currentTestCaseIndex: 0,
         testCases: [],
+        passedCount: 0,
         binHasUncaped: false,
         currentUncapIndex: -1,
-        startedExam: true,
       })
 
       this.generateTestCases();
     },
 
     generateTestCases() {
-      const garbages = app.globalData.garbages;
+      const garbages = this.data.garbages;
       var testCasesIndex = [];
 
       const testCaseSize = garbages.length < TEST_CASES_SIZE ? garbages.length : TEST_CASES_SIZE;
 
       while (testCasesIndex.length < testCaseSize) {
         let random = Math.floor((Math.random() * garbages.length));
+        
         if (!testCasesIndex.includes(random)) {
           testCasesIndex.push(random);
         }
@@ -166,7 +169,7 @@ Component({
         binUncapY: this.data.binUncapY - 100
       })
       console.log("test", this.data.binUncapY)
-    }
+    },
   },
 
   /**
@@ -174,7 +177,7 @@ Component({
    */
   attached() {
     const containerWidth = app.globalData.windowWidth;
-    const containerHeight = app.globalData.windowHeight;
+    const containerHeight = app.globalData.windowHeight - 50;
     const binWidth = (containerWidth / BIN_SIZE) * 0.8;
     const binHeight = containerHeight * 0.2;
     const binStandByY = containerHeight - binHeight;
@@ -182,6 +185,7 @@ Component({
     const binGap = (containerWidth - binWidth * BIN_SIZE) / 4;
     const garbageInitialLeft = containerWidth / 2 - GARBAGE_RECT_WIDTH / 2;
     const garbageInitialTop = containerHeight / 2 - GARBAGE_RECT_HEIGHT / 2;
+    const testCaseNameLeft = containerWidth / 2 - TEST_CASE_NAME_WIDTH / 2;
     console.log("binStandByY", binStandByY)
     console.log("binUncapY", binUncapY)
     console.log("binWidth", binWidth)
@@ -206,12 +210,17 @@ Component({
       binStandByY,
       binUncapY,
       binGap,
-      bins
+      bins,
+      testCaseNameLeft
     })
 
-    db.collection("garbages").get().then(res => {
-      app.globalData.garbages = res.data;
-    })
+    if (!app.globalData.garbages) {
+      db.collection("garbages").get().then(res => {
+        app.globalData.garbages = res.data;
+        this.startExam();
+      })
+    } else {
+      this.startExam();
+    }
   }
-
 })
