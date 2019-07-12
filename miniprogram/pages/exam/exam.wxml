@@ -17,7 +17,9 @@
       direction="all" 
       wx:for="{{bins}}" 
       wx:key x="{{item.x}}" y="{{currentUncapIndex == index ? binUncapY : binStandByY}}"
-      style='position:absolute;bottom:0rpx;width:{{binWidth}}px;height:{{binHeight}}px;background-image:url({{item.bg.standBy}});background-size: 100% 100%;'/>
+      style='position:absolute;bottom:0rpx;width:{{binWidth}}px;height:{{binHeight}}px;'>
+        <image style='width:{{binWidth}}px;height:{{binHeight}}px;' src='{{item.bg.standBy}}'/>
+      </movable-view>
 
     <movable-view 
       hidden = '{{examFinished}}' 
@@ -36,8 +38,8 @@
   <!-- Test progress -->
   <view 
     hidden='{{examFinished}}'
-    class="text-white text-bold text-lg"
-    style='margin-top:100rpx'> {{currentTestCaseIndex + 1}} / {{testCases.length}}</view>
+    class="text-white text-bold text-sl"
+    style='margin-top:200rpx'> {{currentTestCaseIndex + 1}} / {{testCases.length}}</view>
 
   <!-- Result -->
   <view
@@ -47,7 +49,6 @@
     <view
       style='border-radius:24rpx;background:#433853;top:2%;left:5%; right:5%; height:82%;position:absolute'/>
 
-      <!-- Check list -->
     <view
       style='background:#ffffff;top:5%;left:10%; right:10%; height:75%;position:absolute'
       class='padding shadow-lg shadow-wrap'>
@@ -67,8 +68,9 @@
         <view class='text-black text-bold text-lg'>成绩：{{passedCount}} / {{testCases.length}}</view>
       </view>
 
-      <view class="margin-top-sm" style='color:gray;border-top:1px dashed;width:100%'/>
-      <view class='history-table-wrap'>
+      <view class="margin-top-sm margin-bottom-sm" style='color:gray;border-top:1px dashed;width:100%'/>
+      
+      <!-- Check list -->
           <view class="table">
             <view class="tr">
                 <view class="th th1">名称</view>
@@ -82,7 +84,7 @@
                 </view>
                 <view class="td td3">{{item.typeName}}</view>
             </view>
-      </view>
+
       <view class="margin-top-sm margin-bottom" style='color:gray;border-top:1px dashed;width:100%'/>
 
       <view class='flex justify-between margin-top'>

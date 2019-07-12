@@ -25,25 +25,25 @@ Component({
     garbages: app.getGarbageList(),
     bins: [{
         bg: {
-          standBy: "https://6763-gc-v3a9g-1259563504.tcb.qcloud.la/bin/t3.png?sign=f721db97a8606e5121f3437ff5aa95cc&t=1562229990",
+          standBy: "../../images/bin/ic_household.png",
           uncap: "https://6763-gc-v3a9g-1259563504.tcb.qcloud.la/bin/t3_1.png?sign=c9346b9ff5116f619e1c0985a0b63474&t=1562229997"
         }
       },
       {
         bg: {
-          standBy: "https://6763-gc-v3a9g-1259563504.tcb.qcloud.la/bin/t2.png?sign=b24e63c44065626ca9e0a53e524768f1&t=1562231138",
+          standBy: "../../images/bin/ic_residual.png",
           uncap: "https://6763-gc-v3a9g-1259563504.tcb.qcloud.la/bin/t2_1.png?sign=ec889c842020246ef1359920d46c5922&t=1562231149"
         }
       },
       {
         bg: {
-          standBy: "https://6763-gc-v3a9g-1259563504.tcb.qcloud.la/bin/t4.png?sign=101b0ccfff01e909d0d3515b5ee5868c&t=1562230009",
+          standBy: "../../images/bin/ic_recyclable.png",
           uncap: "https://6763-gc-v3a9g-1259563504.tcb.qcloud.la/bin/t4_1.png?sign=01e03363084c9286d29327ce5fcb4d40&t=1562230020"
         }
       },
       {
         bg: {
-          standBy: "https://6763-gc-v3a9g-1259563504.tcb.qcloud.la/bin/t1.png?sign=2756d68a873bc0e13682d53c7bb13bc5&t=1562229926",
+          standBy: "../../images/bin/ic_hazardous.png",
           uncap: "https://6763-gc-v3a9g-1259563504.tcb.qcloud.la/bin/t1_1.png?sign=9e3b21dfd2aee76842d6f24b6a517d26&t=1562229956"
         }
       }
@@ -100,17 +100,19 @@ Component({
         (binIndex == 3 && testCase.type === 'hazardous')) {
         passed = true;
       }
-      
+
       var passedCount = this.data.passedCount;
       if (passed) {
         testCases[testCaseIndex].passed = true
-        passedCount ++;
+        passedCount++;
       }
       var examFinished = false;
       if (testCaseIndex < testCases.length - 1) {
         testCaseIndex++;
+        app.globalData.currentTestCaseIndex = testCaseIndex;
       } else {
         examFinished = true;
+        app.globalData.currentTestCaseIndex = -1;
       }
       console.log("Passed ==> ", passed);
       this.setData({
@@ -140,25 +142,34 @@ Component({
     },
 
     generateTestCases() {
-      const garbages = this.data.garbages;
-      var testCasesIndex = [];
-
-      const testCaseSize = garbages.length < TEST_CASES_SIZE ? garbages.length : TEST_CASES_SIZE;
-
-      while (testCasesIndex.length < testCaseSize) {
-        let random = Math.floor((Math.random() * garbages.length));
-        
-        if (!testCasesIndex.includes(random)) {
-          testCasesIndex.push(random);
-        }
-      }
-
       var testCases = [];
-      for (let i = 0; i < testCasesIndex.length; i++) {
-        testCases.push(garbages[testCasesIndex[i]])
+      var testCaseIndex = 0;
+      if (app.globalData.currentTestCases 
+        && app.globalData.currentTestCaseIndex < TEST_CASES_SIZE
+        && app.globalData.currentTestCaseIndex > 0) {
+        testCases = app.globalData.currentTestCases;
+        testCaseIndex = app.globalData.currentTestCaseIndex;
+      } else {
+        const garbages = this.data.garbages;
+        var testCasesIndex = [];
+        const testCaseSize = garbages.length < TEST_CASES_SIZE ? garbages.length : TEST_CASES_SIZE;
+
+        while (testCasesIndex.length < testCaseSize) {
+          let random = Math.floor((Math.random() * garbages.length));
+
+          if (!testCasesIndex.includes(random)) {
+            testCasesIndex.push(random);
+          }
+        }
+
+        for (let i = 0; i < testCasesIndex.length; i++) {
+          testCases.push(garbages[testCasesIndex[i]])
+        }
+        app.globalData.currentTestCases = testCases;
       }
       this.setData({
-        testCases
+        testCases,
+        currentTestCaseIndex: testCaseIndex
       })
 
       console.log("testCases", testCases);

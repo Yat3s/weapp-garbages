@@ -1,11 +1,4 @@
 
-.history-table-wrap{
-  width: 100%;
-  left: 50%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-/* 表格代码   */
 .table{
   border-right:0;
   border-bottom: 0;

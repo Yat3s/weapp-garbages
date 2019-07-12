@@ -29,6 +29,13 @@
     对了，你可以分享给你的好朋友吗？
   </button>
   <view class="" style='margin-left:100rpx;color:white;border-top:1px dashed;width:100%'/>
+  
+  <button hover-class="my-hover" open-type='share'  
+    class='text-lg text-bold text-white flex justify-between padding-top-xl padding-bottom-xl' 
+    style='padding-left:20rpx;background:#ff;margin-left:100rpx;width:auto;height'>
+    还有，最后问问你自己，你是什么垃圾？
+  </button>
+  <view class="" style='margin-left:100rpx;color:white;border-top:1px dashed;width:100%'/>
 
 
 </scroll-view>

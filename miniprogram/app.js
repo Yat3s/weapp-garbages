@@ -2,6 +2,9 @@
 var data = require('/data/data.js');
 App({
   globalData: {
+    currentTestCaseIndex: 0,
+    currentTestCases: null,
+    bonusStep: 0,
     garbages: data.data,
     theme: "light"
   },
