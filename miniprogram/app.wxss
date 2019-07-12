@@ -10,6 +10,10 @@ page {
   --hazardousColor:#e13b30;
 }
 
+.bg-primary {
+  background: #466AE4
+}
+
 .container {
   display: flex;
   flex-direction: column;

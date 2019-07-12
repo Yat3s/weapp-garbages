@@ -2,7 +2,7 @@
 <scroll-view scroll-into-view="{{toView}}" bindscroll="onScrollChange" scroll-y style='position:absolute;width:100%;height:3000rpx'>
 
   <!-- Header -->
-  <view class="padding" style='position:fixed;top:{{headerTop}}px;display:flex;align-items:center;height:{{headerHeight}}px;width:100%'>
+  <view class="padding" style='position:fixed;top:{{headerTop}}px;display:flex;align-items:center;height:{{headerHeight}}px;width:100%;transition: 0.4s'>
     <view style="width:100%;">
 
       <view style="font-size:64rpx" class='text-white margin-left-sm'>你是什么垃圾？</view>
@@ -45,7 +45,7 @@
           <!-- Bottom icons -->
           <view class='text-white text-bold text-large margin-top flex align-center'>
             <image style='width:72rpx;height:72rpx;' src='../../images/ic_{{tabs[currentTabIndex].id}}.png' />
-            <view style='width:4rpx;height:32rpx' class='margin-left-sm bg-gray'/>
+            <view style='width:4rpx;height:32rpx' class='margin-left-sm bg-gray' />
             <view style="display:flex; flex-direction:column; align-items:center" class="margin-left" wx:key wx:for="{{tabs[currentTabIndex].samples}}">
               <image class="" style='width:48rpx;height:48rpx' src='../../images/sample/{{tabs[currentTabIndex].id}}/ic_{{item.icon}}.png' />
               <view style="margin-top:2px; font-size:18rpx">{{item.name}}</view>
@@ -61,15 +61,15 @@
 
 </scroll-view>
 
-<view hidden="{{!tabBarCollapsed}}" class="shadow padding-left padding-right bg-white" style='position:absolute;height:{{tabBarHeight + statusbarHeight}}px;width:100%'>
+<view wx:if="{{tabBarCollapsed}}" class="shadow padding-left padding-right bg-gradual-blue" style='position:absolute;height:{{tabBarHeight + statusbarHeight}}px;width:100%'>
   <view style='height:{{statusBarHeight}}px' />
 
   <view class='flex align-center'>
     <view class="flex justify-between" style="display:flex;align-items:center;width:60%;height:{{tabBarHeight}}px">
-      <view style="width:100%" class="{{index==currentTabIndex ? 'text-black text-bold':'text-gray'}}" wx:for="{{tabs}}" wx:key bindtap="tabSelect" data-from="collapsed" data-id="{{index}}">
+      <view style="width:100%" class="{{index==currentTabIndex ? 'text-bold':'text-white'}}" wx:for="{{tabs}}" wx:key bindtap="tabSelect" data-from="collapsed" data-id="{{index}}">
         {{tabs[index].abbr}}
         <!-- Indicator -->
-        <view class="margin-top-xs {{index==currentTabIndex ? 'bg-black':''}}" style='height:6rpx;width:48rpx'></view>
+        <view class="margin-top-xs {{index==currentTabIndex ? 'bg-white':''}}" style='height:6rpx;width:48rpx'></view>
       </view>
     </view>
     <image bindtap="goSearch" style="width:48rpx;height:48rpx" src='../../images/ic_search.png' />
@@ -77,17 +77,29 @@
 </view>
 
 <view class="cu-modal {{showDetailCard ? 'show' : ''}}" bindtap="hideDetailCard">
-  <view class="cu-dialog" catchtap>
-    <view  style="height:200px;">
-      {{garbages[currentTabIndex].items[currentShowItemIndex].name}}
-      <view class="cu-bar justify-end text-white">
-        <view class="action" bindtap="hideDetailCard">
-          <text class="cuIcon-close "></text>
-        </view>
+  <view class="cu-dialog" style="background:{{garbages[currentTabIndex].descBgColor}}" catchtap>
+    <view class="flex" style="flex-direction:column;align-items:center;justify-content:center;height:500rpx;">
+      <view style="font-size:48rpx" class='text-white text-bold'>
+        {{garbages[currentTabIndex].items[currentShowItemIndex].name}}
       </view>
+
+      <view style="border-top:2rpx dashed;width:100rpx;height:2rpx;color:rgba(255,255,255,0.6)" class='margin-top' />
+
+      <view style="font-size:48rpx" class='margin-top text-white text-bold'>
+        {{garbages[currentTabIndex].title}}
+      </view>
+      <image class='shadow' src='../../images/ic_{{tabs[currentTabIndex].id}}_round.png' style='width:88rpx;height:88rpx;position:absolute;left:32rpx;top:32rpx' />
+
+      <view bindtap='hideDetailCard' style='width:48rpx;height:48rpx;position:absolute;right:32rpx;top:32rpx' class='cuIcon-close lg text-white text-bold'></view>
+
     </view>
-    <view class="cu-bar bg-white">
-      <view class="action margin-0 flex-sub  solid-left" bindtap="hideDetailCard">我知道了</view>
+    <view class="flex justify-between padding align-center">
+      <view data-correct="{{garbages[currentTabIndex].items[currentShowItemIndex]}}" bindtap="correct" class='icon text-white cuIcon-close flex align-center'>
+        <text class="text-sm">纠错</text>
+      </view>
+      <button style="background:rgba(0,0,0,0)" class='cu-btn cuIcon-forwardfill text-white text-bold' open-type='share'>
+        <view class='margin-left-sm'> 分享</view>
+      </button>
     </view>
   </view>
 </view>

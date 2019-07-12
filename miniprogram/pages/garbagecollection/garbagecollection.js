@@ -76,6 +76,19 @@ Component({
       })
     },
 
+    correct(e) {
+      const garbage = e.currentTarget.dataset.correct;
+      wx.showToast({
+        title: '我知道了，但我不想改',
+        icon:"none"
+      })
+      db.collection("correct").add({
+        data: {
+          data: garbage
+        }
+      })
+    },
+
     hideDetailCard() {
       this.setData({
         showDetailCard: false

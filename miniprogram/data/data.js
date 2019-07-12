@@ -6001,7 +6001,7 @@ const data = [{
       },
       {
         id: '1142',
-        name: '沾有油渍的食品包装袋',
+        name: '沾有油渍的包装袋',
         category: '1',
         alias: '',
         shortcut: 'zhyyzdshpbzhd'

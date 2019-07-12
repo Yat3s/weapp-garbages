@@ -7,6 +7,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    showDetailCard: false,
+    currentShowItem: null,
     garbages: [],
     input:'',
     colors: [
@@ -62,17 +64,51 @@ Page({
     this.setData({ garbages })
   },
 
+  showDetailCard(e) {
+    this.setData({
+      currentShowItem: e.currentTarget.dataset.item,
+      showDetailCard: true
+    })
+  },
+
+  correct(e) {
+    const garbage = e.currentTarget.dataset.correct;
+    wx.showToast({
+      title: '我知道了，但我不想改',
+      icon: "none"
+    })
+    db.collection("correct").add({
+      data: {
+        data: garbage
+      }
+    })
+  },
+
+  hideDetailCard() {
+    this.setData({
+      showDetailCard: false
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '翻看垃圾桶...',
+    })
+    const now = new Date().getMilliseconds();
     var garbages = app.getGarbageList();
     console.log(garbages);
     for (let i = 0; i < garbages.length; i++) {
       garbages[i].isShow = true;
     }
 
+    this.setData({ garbages: garbages.slice(0, 20)});
     this.setData({ garbages });
+    setTimeout(res => {
+      wx.hideLoading();
+    }, 2000)
   },
 
   /**

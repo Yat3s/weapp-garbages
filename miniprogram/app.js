@@ -18,6 +18,7 @@ App({
         item.type = garbagesSet[i].id;
         item.color = garbagesSet[i].color;
         item.typeName = this.getTypeNameByType(garbagesSet[i].id)
+        item.descBgColor = garbagesSet[i].descBgColor;
         garbages.push(item);
       }
     }
