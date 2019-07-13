@@ -44,7 +44,7 @@
   <!-- Result -->
   <view
   hidden='{{!examFinished || testCases.length == 0}}'
-  style='margin-top:18%;width:100%; height:90%;position:absolute'
+  style='margin-top:18%;width:100%; height:95%;position:absolute'
   >
     <view
       style='border-radius:24rpx;background:#433853;top:2%;left:5%; right:5%; height:82%;position:absolute'/>
@@ -68,7 +68,12 @@
         <view class='text-black text-bold text-lg'>成绩：{{passedCount}} / {{testCases.length}}</view>
       </view>
 
-      <view class="margin-top-sm margin-bottom-sm" style='color:gray;border-top:1px dashed;width:100%'/>
+      <view style="height:90%;display:flex; flex-direction:column;justify-content:space-between" class='justify-between'>
+        <!-- Comment -->
+        <view style="display:flex;flex:1; align-items:center;justify-content:center" class='padding-left padding-right justify-center margin-top-sm text-lg text-bold'>{{comment}}</view>
+
+        <view >
+         <view class="margin-top-sm" style='color:gray;border-top:1px dashed;width:100%'/>
       
       <!-- Check list -->
           <view class="table">
@@ -88,9 +93,13 @@
       <view class="margin-top-sm margin-bottom" style='color:gray;border-top:1px dashed;width:100%'/>
 
       <view class='flex justify-between margin-top'>
-        <view bindtap='startExam' class='cu-btn bg-green round'>换一批试试</view>
-        <button open-type='share' class='cu-btn bg-blue round text-bold'>分享给好友</button>
+        <view bindtap='startExam' class='cu-btn bg-green sm round'>换一批试试</view>
+        <button open-type='share' class='cu-btn bg-blue sm round text-bold'>分享给好友</button>
       </view>
+        </view>
+      </view>
+    
+     
     </view>
 
 

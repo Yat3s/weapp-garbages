@@ -94,6 +94,9 @@ image {
 .radius {
 	border-radius: 6rpx;
 }
+.radius-lg {
+	border-radius: 24rpx;
+}
 
 /* ==================
           图片

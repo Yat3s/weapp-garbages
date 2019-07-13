@@ -4,6 +4,7 @@
     "pages/garbagecollection/garbagecollection",
     "pages/garbagecollection/search/search",
     "pages/exam/exam",
+    "pages/doyouknow/doyouknow",
     "pages/profile/profile"
   ],
   "window": {

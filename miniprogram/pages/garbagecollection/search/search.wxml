@@ -13,7 +13,7 @@
 </view>
 
 <scroll-view class="bg-white" scroll-y style="height:2000rpx">
-  <view data-item="{{item}}" bindtap="showDetailCard" wx:if='{{item.isShow}}' class="padding-left-lg padding-right-lg padding-top padding-bottom-sm" wx:for='{{garbages}}' wx:key>
+  <view data-item="{{item}}" bindtap="showDetailCard" wx:if='{{item.isShow}}' class="padding-left-lg padding-right-lg padding-top padding-bottom-sm" wx:for='{{garbages}}' wx:key="{{item.name}}">
     <!-- {{item.name}} -->
     <view class='shadow bg-gray padding-top padding-bottom padding-left-lg padding-right-lg' style='background-color:{{item.color}};border-top-right-radius: 40rpx;border-bottom-right-radius: 40rpx;border-bottom-left-radius: 40rpx;' wx:if="{{index % 2 == 0}}">
       <view style="font-size:48rpx" class='text-bold text-white'>{{item.name}}</view>

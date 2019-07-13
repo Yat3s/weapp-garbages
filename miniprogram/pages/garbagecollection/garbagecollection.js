@@ -14,6 +14,7 @@ Component({
    * 页面的初始数据
    */
   data: {
+    theme: app.globalData.theme,
     showDetailCard: false,
     currentShowItemIndex: -1,
     toView: "",

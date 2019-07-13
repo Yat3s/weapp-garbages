@@ -1,7 +1,10 @@
 {
   "usingComponents": {
     "garbages": "/pages/garbagecollection/garbagecollection",
+    "doyouknow": "/pages/doyouknow/doyouknow",
     "exam": "/pages/exam/exam",
     "profile": "/pages/profile/profile"
+
+
   }
 }

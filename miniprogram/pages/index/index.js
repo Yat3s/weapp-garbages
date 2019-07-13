@@ -4,6 +4,7 @@ const BONUS_MENU_WIDTH_PERCENT = 0.2 // percent
 
 Page({
   data: {
+    theme: app.globalData.theme,
     currentTab: 'garbage',
     bonusMenuWidthPercent: BONUS_MENU_WIDTH_PERCENT * 100,
     tabs: [{
@@ -13,6 +14,12 @@ Page({
         icon: "../../images/ic_garbage.png"
       },
       {
+        id: "doyouknow",
+        title: "你知道吗",
+        color: "#e7e1fb",
+        icon: "../../images/ic_doyouknow.png"
+      },
+      {
         id: "exam",
         title: "测试",
         color: "#ccfad7",
@@ -20,9 +27,9 @@ Page({
       },
       {
         id: "profile",
-        title: "Profile",
+        title: "关于",
         color: "#f5ebfe",
-        icon: "../../images/ic_check.png"
+        icon: "../../images/ic_idea.png"
       }
     ]
   },

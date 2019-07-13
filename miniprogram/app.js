@@ -6,7 +6,7 @@ App({
     currentTestCases: null,
     bonusStep: 0,
     garbages: data.data,
-    theme: "light"
+    theme: "blue"
   },
 
   getGarbageList() {

@@ -1,0 +1,4 @@
+/* pages/doyouknow/doyouknow.wxss */
+page {
+  background:#466AE4
+}

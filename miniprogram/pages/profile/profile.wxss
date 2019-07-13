@@ -1,8 +1,5 @@
 /* pages/profile/profile.wxss */
 
-page {
-  background: primary;
-}
 .my-hover {
   background: #8E98FD
 }

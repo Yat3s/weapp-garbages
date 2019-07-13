@@ -107,16 +107,27 @@ Component({
         passedCount++;
       }
       var examFinished = false;
+      var comment = "";
       if (testCaseIndex < testCases.length - 1) {
         testCaseIndex++;
         app.globalData.currentTestCaseIndex = testCaseIndex;
       } else {
         examFinished = true;
+        if (passedCount >= TEST_CASES_SIZE) {
+          comment = "难道你就是传说中的“垃圾站站长”？"
+        } else if (passedCount >= TEST_CASES_SIZE / 2) {
+          comment = "嗯还行，比垃圾分类的阿姨还差那么一点。"
+        } else if (passedCount >= TEST_CASES_SIZE / 4) {
+          comment = "你是认真的吗？"
+        } else {
+          comment = "你很可能会垃圾分类的阿姨骂上一整天..."
+        }
         app.globalData.currentTestCaseIndex = -1;
       }
       console.log("Passed ==> ", passed);
       this.setData({
         testCases,
+        comment,
         examFinished,
         passedCount,
         currentTestCaseIndex: testCaseIndex,

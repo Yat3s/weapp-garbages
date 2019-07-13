@@ -1,0 +1,70 @@
+<!--pages/doyouknow/doyouknow.wxml-->
+<view class="" style="height:48rpx" />
+<view class="text-white margin-left margin-top flex align-center" style="font-size:50rpx">待分类
+  <view class='text-sm'>
+    <button style="background:rgba(0,0,0,0)" class='cu-btn cuIcon-add text-white' open-type='contact'>
+      发布求助
+    </button>
+  </view>
+</view>
+
+<!-- TBD cases -->
+<scroll-view scroll-x style='white-space:nowrap;'>
+  <view class="padding-sm flex">
+    <view data-item="{{item}}" bindtap="showVoteModal" class='bg-gray text-black padding-left-sm padding-right-sm padding-top-xs padding-bottom-xs text-sm margin-left-sm round' wx:for="{{tbds}}" wx:key="{{item.name}}">{{item.name}}</view>
+  </view>
+</scroll-view>
+
+<view class="text-white margin-left margin-top-sm" style="font-size:50rpx">你知道吗？</view>
+
+<scroll-view scroll-y>
+  <!-- Do you know card -->
+  <view style="border-radius:24rpx" class="margin padding bg-white" wx:for="{{cornercases}}" wx:key="{{cornercases.title}}">
+    <text  class="" style="font-size:40rpx">{{item.title}}</text>
+
+    <view class='flex margin-top align-center'>
+      <image aspectFit class="" style='width:200rpx;height:200rpx' src='{{item.image}}' />
+
+      <view style='width:60%' class='margin-left-lg padding-top-sm padding-left padding-right padding-bottom radius-lg bg-gray'>
+        <view style='justify-content: space-between;' wx:for="{{item.cases}}" wx:for-item="case" wx:for-index="caseindex" wx:key="{{case.name}}" class='margin-top-xs flex'>
+          {{case.name}}
+          <text class='text-bold margin-left'>{{case.typeName}}</text>
+        </view>
+      </view>
+
+    </view>
+
+    <view class='margin-top-xs flex justify-end'>
+      <button style="background:rgba(0,0,0,0)" class='cu-btn cuIcon-forwardfill text-grey' open-type='share'>
+        <view class='margin-left-sm text-sm'>告诉我的朋友</view>
+      </button>
+    </view>
+  </view>
+
+</scroll-view>
+
+<view class="cu-modal {{showVoteModal? 'show' : ''}}" bindtap="hideVoteModal">
+  <view class="cu-dialog bg-white padding-bottom" catchtap>
+    <view class='justify-center align-center margin flex'>你觉得
+      <text class='margin-left-xs margin-right-xs text-lg text-bold text-black'>{{currentVoteCase.name}}</text> 是
+    </view>
+    <view data-type="household" bindtap="vote" style='border-radius:24rpx' class='margin-left margin-right margin-top text-bold text-lg padding bg-gray flex align-center'>
+      <image style="width:80rpx;height:80rpx" class="margin-right" src='../../images/ic_household_round.png' /> 湿垃圾
+    </view>
+    <view data-type="residual" bindtap="vote" style='border-radius:24rpx' class='margin-left margin-right margin-top text-bold text-lg padding bg-gray flex align-center'>
+      <image style="width:80rpx;height:80rpx" class="margin-right" src='../../images/ic_residual_round.png' /> 干垃圾
+    </view>
+    <view data-type="recyclable" bindtap="vote" style='border-radius:24rpx' class='margin-left margin-right margin-top text-bold text-lg padding bg-gray flex align-center'>
+      <image style="width:80rpx;height:80rpx" class="margin-right" src='../../images/ic_recyclable_round.png' /> 可回收物
+    </view>
+    <view data-type="hazardous" bindtap="vote" style='border-radius:24rpx' class='margin-left margin-right margin-top text-bold text-lg padding bg-gray flex align-center'>
+      <image style="width:80rpx;height:80rpx" class="margin-right" src='../../images/ic_hazardous_round.png' /> 有害垃圾
+    </view>
+
+    <view class='margin-top-sm flex justify-end'>
+      <button style="background:rgba(0,0,0,0)" class='cu-btn cuIcon-forwardfill text-grey' open-type='share'>
+        <view class='margin-left-sm'>求助网友</view>
+      </button>
+    </view>
+  </view>
+</view>

@@ -1,20 +1,15 @@
-<garbages wx:if="{{currentTab=='garbage'}}" />
-<exam wx:if="{{currentTab=='exam'}}" />
-<profile wx:if="{{currentTab=='profile'}}" />
+<view class='theme-{{theme}}'>
+  <garbages wx:if="{{currentTab=='garbage'}}" />
+  <doyouknow wx:if="{{currentTab=='doyouknow'}}" />
+  <exam wx:if="{{currentTab=='exam'}}" />
+  <profile wx:if="{{currentTab=='profile'}}" />
 
-<view style="display:flex;height: 50px;" class="padding-left padding-right cu-bar bg-white shadow foot">
-
-  <view style='background:{{currentTab==item.id ? item.color : white}}; align-items:center;justify-content:center;text-align:center;transition: width 0.5s;width:{{currentTab==item.id ? partWidth * 1.5 : partWidth}}px;height:70%' class='{{currentTab==item.id ? "round" : ""}} flex padding-top-sm padding-bottom-sm'
-    wx:for="{{tabs}}" wx:key data-tabid="{{item.id}}" bindtap='onTabSelect'>
-    <image style="width:32rpx;height:32rpx" src='{{item.icon}}' />
-    <view class="text-bold margin-left-sm" hidden='{{currentTab!=item.id}}'>{{item.title}}</view>
-  </view>
-
-  <view class="flex" style='width:{{bonusMenuWidthPercent}}%'>
-    <view class="bg-black margin-left" style='height:auto; width:4rpx'/>
-
-    <view bindtap="bonus" class='flex' style='width:100%;justify-content:center'>
-      <image style="width:40rpx;height:40rpx" src='../../images/ic_idea.png' />
+  <!-- Bottom navigation bar -->
+  <view style="display:flex;height: 50px;" class="padding-left padding-right cu-bar bg-white shadow foot">
+    <view style='background:{{currentTab==item.id ? item.color : white}}; align-items:center;justify-content:center;text-align:center;transition: width 0.5s;width:{{currentTab==item.id ? partWidth * 1.8 : partWidth}}px;height:70%' class='{{currentTab==item.id ? "round" : ""}} flex padding-top-sm padding-bottom-sm'
+      wx:for="{{tabs}}" wx:key data-tabid="{{item.id}}" bindtap='onTabSelect'>
+      <image style="width:32rpx;height:32rpx" src='{{item.icon}}' />
+      <view style="white-space: nowrap;overflow:hidden; text-overflow:ellipsis" class="text-bold margin-left-sm" hidden='{{currentTab!=item.id}}'>{{item.title}}</view>
     </view>
   </view>
 </view>
